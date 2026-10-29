@@ -1,0 +1,15 @@
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Environment variables and secrets
+.env
+
+# Test reports and screenshots
+reports/
+test-results/
+
+# IDE settings
+.vscode/
