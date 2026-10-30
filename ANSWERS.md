@@ -143,21 +143,25 @@ My recommendation would be to hold release approval until the sorting issue has 
 
 ---
 
-# Section C – Investigation and Experience
+## Section C – Investigation and Experience
 
 ## C1. Investigating a Checkout Failure
 
-If a checkout test failed, I would first check the report to see which step failed and what the actual result was. I would look at the screenshot and error message, then rerun the test to see whether the issue happens consistently.
+If a checkout test failed, I would first review the test report, screenshot, and error message to identify the exact step where it failed. I would rerun the test to check whether the issue was consistent or intermittent.
 
-Next, I would check the test setup, including the login status, products added to the cart, customer details, and the page on which the failure occurred. I would also check whether the application had finished loading before the test interacted with it.
+Next, I would verify the test setup, including the login status, cart contents, customer details, and page state. I would also check whether the application had loaded correctly before the test interacted with it.
 
-If the problem happened again, I would investigate the application behavior and available logs. I would check whether the failure was caused by an application defect, an incorrect selector, test data, or an environment issue. If it was a genuine defect, I would report it with the reproduction steps and evidence. If it was a test issue, I would fix the synchronization or test setup and rerun the relevant tests.
+If the issue continued, I would inspect the application behavior and available logs to determine whether the cause was an application defect, test data, an incorrect selector, or a timing issue. If I confirmed a genuine defect, I would document the reproduction steps, expected and actual results, and supporting evidence. If the problem was in the test itself, I would correct the test setup or synchronization and rerun the affected tests to verify the result.
 
-## C2. A Real Issue I Have Worked On
+## C2. A Real Issue I Worked On at Vonage
 
-I want to use an example that I can explain honestly from my own experience. I would describe what happened, how I noticed the problem, the steps I took to investigate it, and how I verified the fix.
+During my time as a Software Engineering Trainee at Vonage, I worked on Java and Spring Boot REST APIs used in telecom billing workflows. One issue I worked on involved inconsistent validation and error handling across API flows, which made some invalid requests harder to troubleshoot.
 
-I would not claim to have handled a production incident unless I actually did. If my experience is from testing or debugging rather than a live production incident, I would explain that clearly and describe how I would apply the same approach to investigating a production issue.
+I reviewed the existing validation logic and helped improve the handling of common validation rules and error responses. I then tested valid requests alongside invalid inputs, including missing or inconsistent data, to check that errors were handled consistently without affecting valid requests.
+
+I also reviewed the resulting errors and regression-test results to verify the changes. This work contributed to a reduction of approximately 10–15% in validation-related API failures. It also made errors easier to interpret and helped make debugging more consistent.
+
+The main lesson I learned was to reproduce an issue, compare the expected and actual behavior, investigate the relevant logic, and verify the change with regression tests. I would apply the same structured approach to a production issue by first assessing its impact, reviewing logs and requests, identifying the cause, validating the fix, and communicating the results clearly.
 
 ---
 
