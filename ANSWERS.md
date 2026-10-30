@@ -7,59 +7,86 @@
 
 ## A1. Manual Test Cases
 
-### Assumptions
+### Assumptions and Preconditions
 
-I am using the SauceDemo website for testing. I assume the website is available, the test accounts are working as expected, and the product inventory contains the required products. I will use the standard user for normal testing and the locked-out user to check login failure scenarios.
+I am using the SauceDemo website for testing. I assume the website is accessible, the test accounts are available, and the product inventory is loaded correctly.
+
+- Use the standard user for successful login and shopping workflows.
+- Use the locked-out user to validate login failure handling.
+- Start each test from a known application state to avoid interference from previous tests.
+- Use valid product details and checkout information where required.
+- Verify both the displayed results and the application's actual behavior.
 
 ### Manual Test Cases
 
-| ID | Test scenario | Steps | Expected result |
-|---|---|---|---|
-| TC01 | Standard user login | Enter valid username and password and click Login. | The user should reach the Products page. |
-| TC02 | Locked-out user login | Enter the locked-out user's credentials. | Login should fail and display an error message. |
-| TC03 | Invalid password | Enter a valid username with an incorrect password. | The user should not be able to log in. |
-| TC04 | Empty login fields | Click Login without entering any details. | The application should show an appropriate validation message. |
-| TC05 | Check product details | Log in and look at the product list. | Product names, images, prices, and buttons should be displayed correctly. |
-| TC06 | Sort price low to high | Select the low-to-high price option. | Products should appear from the lowest price to the highest. |
-| TC07 | Sort price high to low | Select the high-to-low price option. | Products should appear from the highest price to the lowest. |
-| TC08 | Sort names alphabetically | Select the A-to-Z sorting option. | Product names should appear in alphabetical order. |
-| TC09 | Add one product | Add a product to the cart. | The cart badge should show one item. |
-| TC10 | Add two products | Add two different products to the cart. | The cart badge should show two items. |
-| TC11 | Remove a product | Add a product and then remove it. | The cart badge should update correctly. |
-| TC12 | Remove an item from the cart | Add two products, open the cart, and remove one. | Only the remaining product should be displayed. |
-| TC13 | Check an empty cart | Open the cart without adding any products. | The cart should be empty, with no incorrect product details. |
-| TC14 | Continue shopping | Open the cart and click Continue Shopping. | The user should return to the Products page. |
-| TC15 | Checkout with valid details | Add a product, open the cart, enter all required details, and continue. | The user should reach the order overview page. |
-| TC16 | Missing first name | Leave the first-name field empty and continue. | Checkout should show a first-name validation message. |
-| TC17 | Missing last name | Leave the last-name field empty and continue. | Checkout should show a last-name validation message. |
-| TC18 | Missing postal code | Leave the postal-code field empty and continue. | Checkout should show a postal-code validation message. |
-| TC19 | Check order total | Compare the subtotal, tax, and total on the overview page. | The total should equal the subtotal plus tax. |
-| TC20 | Complete an order | Complete checkout using valid details. | The application should show an order confirmation. |
-| TC21 | Check cart after checkout | Complete an order and return to the Products page. | The completed order's items should no longer be in the active cart. |
-| TC22 | Access inventory after logout | Log in, log out, and directly open the inventory URL. | The user should not be able to access the protected page without logging in again. |
-| TC23 | Check different screen sizes | Open the website at desktop and mobile-sized viewports. | Important content and controls should remain usable. |
-| TC24 | Keyboard navigation | Use the keyboard to navigate the login page, product list, and checkout. | Interactive controls should be reachable and usable with the keyboard. |
-| TC25 | Check session handling | Log out and try to open a protected page again. | The application should redirect the user to login or otherwise prevent access. |
+| ID | Test Scenario | Steps | Expected Result | Priority |
+|---|---|---|---|---|
+| TC01 | Standard user login | Enter valid standard-user credentials and click Login. | Login succeeds and the user is redirected to the Products page. | P1 |
+| TC02 | Locked-out user login | Enter the locked-out user's credentials and click Login. | Login is denied and an appropriate error message is displayed. | P1 |
+| TC03 | Invalid password | Enter a valid username with an incorrect password and click Login. | Login fails, and the user remains on the login page with an error message. | P1 |
+| TC04 | Empty login fields | Leave both fields empty and click Login. | Login is prevented and the required-field validation message is displayed. | P1 |
+| TC05 | Product details | Log in and inspect the product list. | Product names, images, prices, and action buttons are displayed correctly. | P1 |
+| TC06 | Sort prices low to high | Select the price low-to-high option and inspect product prices. | Products are displayed in ascending order of price. | P1 |
+| TC07 | Sort prices high to low | Select the price high-to-low option and inspect product prices. | Products are displayed in descending order of price. | P1 |
+| TC08 | Sort product names alphabetically | Select the A-to-Z option and inspect product names. | Product names are displayed in alphabetical order. | P2 |
+| TC09 | Add one product | Click Add to Cart for one product. | The cart badge displays one item, and the selected product is added to the cart. | P1 |
+| TC10 | Add two products | Add two different products to the cart. | The cart badge displays two items, and both products are present in the cart. | P1 |
+| TC11 | Remove a product | Add a product to the cart and click Remove. | The product is removed, and the cart badge updates accordingly. | P1 |
+| TC12 | Remove an item from the cart | Add two products, open the cart, and remove one product. | The removed product disappears, and only the remaining product is displayed. | P1 |
+| TC13 | Empty cart | Open the cart without adding any products. | The cart displays no products and does not show incorrect item details. | P2 |
+| TC14 | Continue shopping | Open the cart and click Continue Shopping. | The user returns to the Products page, and the existing cart state is preserved. | P2 |
+| TC15 | Checkout with valid details | Add a product, open the cart, click Checkout, enter valid customer details, and continue. | The user reaches the checkout overview page. | P1 |
+| TC16 | Missing first name | Start checkout, leave the first-name field empty, and click Continue. | Checkout is blocked and a first-name validation message is displayed. | P1 |
+| TC17 | Missing last name | Start checkout, leave the last-name field empty, and click Continue. | Checkout is blocked and a last-name validation message is displayed. | P1 |
+| TC18 | Missing postal code | Start checkout, leave the postal-code field empty, and click Continue. | Checkout is blocked and a postal-code validation message is displayed. | P1 |
+| TC19 | Verify order total | Add products, proceed to the overview page, and compare item prices, subtotal, tax, and total. | The subtotal matches the sum of item prices, and the total equals subtotal plus tax. | P1 |
+| TC20 | Complete an order | Complete checkout using valid details and click Finish. | The order is completed, and the confirmation page displays the expected success message. | P1 |
+| TC21 | Cart after checkout | Complete an order and return to the Products page. | The completed order's items are no longer present in the active cart. | P2 |
+| TC22 | Access inventory after logout | Log in, log out, and attempt to open the inventory URL directly. | The protected page is not accessible without authentication, and the user is redirected appropriately. | P1 |
+| TC23 | Responsive layout | Open the website at desktop and mobile-sized viewports. | Important content remains visible, and controls are usable without disruptive layout issues. | P2 |
+| TC24 | Keyboard navigation | Navigate through the login page, product list, cart, and checkout using the keyboard. | Interactive controls are keyboard-accessible, focus is visible, and supported actions can be completed without a mouse. | P2 |
+| TC25 | Session handling | Log in, log out, and attempt to revisit a protected page using browser navigation or a direct URL. | The application prevents access to protected content after logout and requires authentication again. | P1 |
+
+**Priority guide:**
+- **P1 – High:** Core functionality or a failure that could prevent users from logging in, shopping, or completing checkout.
+- **P2 – Medium:** Important usability, navigation, or secondary functionality that should be tested but is generally less critical to the primary purchase flow.
+
+*Note: These are proposed test priorities. Actual priority should also consider business impact and the severity of any defect discovered.*
 
 ### Exploratory Testing – 15 Minutes
 
-**Objective:** I want to check whether users can shop and complete checkout without running into unexpected problems.
+**Objective:** Identify unexpected behavior that could affect a customer's ability to browse products, manage a cart, and complete checkout.
 
-I would spend the first three minutes exploring the product list and changing the sorting options. Next, I would spend four minutes adding and removing products and checking whether the cart badge matches the actual cart contents. I would then spend five minutes testing checkout, including missing fields and the calculation of the order total. I would use the final three minutes to repeat any suspicious behavior and record the results.
+I would divide the exploratory session into three focused areas:
 
-I would pay particular attention to incorrect product sorting, cart counts that do not update, missing validation messages, incorrect totals, and access to the inventory after logout.
+- **First 3 minutes – Product listing:** Inspect product details and change sorting options. Check for incorrect ordering, missing images, or inconsistent product information.
+- **Next 4 minutes – Cart operations:** Add and remove products, navigate between the Products and Cart pages, and verify that the cart badge matches the actual cart contents.
+- **Next 5 minutes – Checkout:** Complete the checkout flow, test missing required fields, and verify the subtotal, tax, and final total.
+- **Final 3 minutes – Session and retesting:** Check access after logout, repeat suspicious behavior, and record reproducible issues.
 
-For any issue I find, I would record the steps to reproduce it, the expected and actual results, and a screenshot if it helps explain the problem. These are areas I would investigate, not defects I would report without verifying them.
+I would focus on incorrect sorting, cart counts that do not update, missing validation messages, incorrect totals, and unauthorized access to protected pages.
+
+For each issue identified, I would document the reproduction steps, expected result, actual result, and supporting screenshots or logs where useful. These are potential areas to investigate, not confirmed defects until the behavior has been reproduced and verified.
 
 ### Test Strategy
 
-I would start with the features that could prevent a customer from buying a product, such as login, sorting, cart operations, and checkout. I would cover both successful and unsuccessful scenarios, including missing form fields and invalid login details. I would use manual testing for exploratory checks, keyboard navigation, and different screen sizes. For repetitive scenarios, I would use Python, Pytest, and Playwright to automate the main workflows. I would keep the tests independent, use reusable page classes, and rely on actual page conditions instead of fixed delays. When a test fails, I would review the error, screenshot, and execution report before deciding whether it is an application defect or a problem with the test itself.
+I would prioritize login, product sorting, cart operations, and checkout because failures in these areas can prevent customers from completing a purchase.
+
+My approach would include:
+1. **Positive testing:** Verify successful login, product selection, cart operations, and order completion.
+2. **Negative testing:** Validate invalid login credentials, empty fields, and missing checkout information.
+3. **Regression testing:** Re-run existing tests after changes to confirm that previously working functionality remains stable.
+4. **Usability testing:** Manually inspect keyboard navigation and responsive behavior at different viewport sizes.
+5. **Automation:** Use Python, Pytest, and Playwright to automate repeatable functional scenarios.
+6. **Failure analysis:** Review assertions, error messages, screenshots, and execution reports before determining whether a failure is caused by the application, test data, or automation code.
+
+I would use reusable page classes, independent test setup where practical, explicit assertions, and condition-based waits rather than fixed delays. This approach improves maintainability and helps reduce flaky tests.
 
 ### Automated Test Coverage
 
-I have automated the following main scenarios:
+The following manual test scenarios have corresponding automated tests in my current suite:
 
-| Manual test case | Automated test |
+| Manual Test Case | Automated Test |
 |---|---|
 | TC01 – Standard user login | `test_TC01_standard_user_login` |
 | TC02 – Locked-out user login | `test_TC02_locked_user_login` |
@@ -67,10 +94,14 @@ I have automated the following main scenarios:
 | TC07 – Sort prices high to low | `test_TC04_sort_price_high_to_low` |
 | TC10–TC12 – Add and remove cart items | `test_TC05_add_two_products_remove_one` |
 | TC16–TC18 – Required checkout fields | `test_TC06_checkout_required_fields` |
-| TC19–TC21 – Checkout total and empty cart | `test_TC07_checkout_total_and_cart_empty` |
-| TC22 – Access after logout | `test_TC08_products_page_requires_login` |
+| TC19–TC21 – Checkout total and cart state | `test_TC07_checkout_total_and_cart_empty` |
+| TC22 – Access inventory without authentication | `test_TC08_products_page_requires_login` |
 
-The checkout validation test uses parameterization to check three missing-field scenarios. The remaining manual test cases can be tested manually or automated later as the suite grows.
+The checkout validation test uses parameterization to cover the three missing-field scenarios: first name, last name, and postal code.
+
+The remaining manual test cases can be automated incrementally as the suite grows. I would prioritize additional automation based on business risk, test repeatability, and regression value.
+
+Automation coverage should be reported according to what each test actually verifies. For example, the automated checkout test should only be considered to cover order completion or post-checkout cart behavior if its assertions explicitly validate those outcomes.
 
 ---
 
@@ -78,80 +109,209 @@ The checkout validation test uses parameterization to check three missing-field 
 
 ## B1. Reviewing AI-Generated Test Code
 
-I would not use AI-generated test code without checking whether it actually tests the required behavior. A test can look correct but still miss a defect if it checks only one product, uses an incorrect selector, or does not verify the complete result.
+I would not use AI-generated test code without reviewing it first. Even if a test runs successfully, it may not verify the complete requirement or detect important defects.
 
-For a price-sorting test, I would log in, select the required sorting option, collect all the displayed prices, convert them to numbers, and compare the complete list with the expected order.
+### Problems in the supplied test
 
-For example, the following assertion checks that the prices are in ascending order:
+1. **Hard-coded URL:** The application URL should come from environment variables or configuration so the test can run against different environments.
+2. **Hard-coded credentials:** Usernames and passwords should be read from environment variables rather than embedded in the test.
+3. **Generic Add to Cart selector:** A selector such as `text=Add to cart` may match the wrong product button. The test should identify the intended product card and its button.
+4. **Fixed sleep:** A fixed delay makes tests slower and can still fail when the application responds slowly. Playwright should wait for the relevant element or page state.
+5. **Incomplete sorting verification:** Checking only one price does not confirm that the entire product list is correctly sorted. The test should collect all prices and compare them in numeric order.
+6. **Weak total assertion:** `expect(total).toBeTruthy()` only checks that a value exists. It does not verify that the total equals the subtotal plus tax.
+7. **Incomplete checkout flow:** The test should continue through the Finish action if completing an order is part of the requirement.
+8. **Missing confirmation check:** The test should verify that the order confirmation is displayed.
+9. **Missing cart verification:** It should check the active cart after checkout if the expected behavior is that the cart becomes empty.
+10. **Limited failure evidence:** Screenshots and test reports should help identify what failed.
+11. **Test independence:** The test should establish its own starting state rather than depend on another test.
+12. **Maintainability:** Reusable page objects or helper methods should be used for common interactions and locators.
 
-```python
-actual_prices = products.get_product_prices()
+### Corrected Playwright test
 
-assert len(actual_prices) > 1
-assert actual_prices == sorted(actual_prices), (
-    f"Prices are not ascending: {actual_prices}"
-)
-```
+Since my assessment project uses Python, Pytest, and Playwright, I would implement the test in Python. The following example illustrates the verification logic for product sorting, checkout totals, and order completion.
 
-I would run the test against the actual application to confirm that the selector works and the assertion catches incorrect ordering. I would also check that the test does not rely on fixed sleeps and can run independently of other tests.
+import os
+import re
+from decimal import Decimal
 
-## B2. Evaluating an AI Testing Feature
+from playwright.sync_api import Page, expect
 
-I would choose AI-generated test cases as the feature to evaluate. It can save time when creating test scenarios, but I would still check the results before using them.
+def test_checkout_total_and_cart_empty(page: Page):
+    base_url = os.environ["BASE_URL"]
+    username = os.environ["STANDARD_USER"]
+    password = os.environ["TEST_PASSWORD"]
 
-I would evaluate it using these four checks:
+    # Open the application and log in.
+    page.goto(base_url)
+    page.locator('[data-test="username"]').fill(username)
+    page.locator('[data-test="password"]').fill(password)
+    page.locator('[data-test="login-button"]').click()
 
-| Check | What I would look for | Score |
+    expect(page).to_have_url(re.compile(r".*/inventory\.html"))
+    expect(page.locator(".inventory_item")).not_to_have_count(0)
+
+    # Add two products using their individual product cards.
+    product_cards = page.locator(".inventory_item")
+    product_cards.nth(0).locator("button").click()
+    product_cards.nth(1).locator("button").click()
+
+    # Verify the cart badge and contents.
+    expect(page.locator(".shopping_cart_badge")).to_have_text("2")
+    page.locator(".shopping_cart_link").click()
+    expect(page.locator(".cart_item")).to_have_count(2)
+
+    # Start checkout.
+    page.locator('[data-test="checkout"]').click()
+    page.locator('[data-test="firstName"]').fill("Test")
+    page.locator('[data-test="lastName"]').fill("User")
+    page.locator('[data-test="postalCode"]').fill("560001")
+    page.locator('[data-test="continue"]').click()
+
+    # Verify the order overview.
+    expect(page.locator(".summary_subtotal_label")).to_be_visible()
+    expect(page.locator(".summary_tax_label")).to_be_visible()
+    expect(page.locator(".summary_total_label")).to_be_visible()
+
+    subtotal_text = page.locator(
+        ".summary_subtotal_label"
+    ).inner_text()
+    tax_text = page.locator(
+        ".summary_tax_label"
+    ).inner_text()
+    total_text = page.locator(
+        ".summary_total_label"
+    ).inner_text()
+
+    subtotal = Decimal(subtotal_text.split("$")[-1])
+    tax = Decimal(tax_text.split("$")[-1])
+    total = Decimal(total_text.split("$")[-1])
+
+    assert total == subtotal + tax, (
+        f"Expected total {subtotal + tax}, "
+        f"but found {total}"
+    )
+
+    # Complete checkout and verify confirmation.
+    page.locator('[data-test="finish"]').click()
+    expect(page.locator(".complete-header")).to_be_visible()
+    expect(page.locator(".complete-header")).to_contain_text(
+        "Thank you"
+    )
+
+    # Return to the products page and verify the active cart is empty.
+    page.locator('[data-test="back-to-products"]').click()
+    expect(page.locator(".shopping_cart_badge")).to_have_count(0)
+
+### How I would validate the corrected test
+
+I would run the test against the actual application and verify that the selectors match the page. I would confirm that the test fails if the total is incorrect, the order confirmation is missing, or the cart still contains items after checkout. I would also check the failure screenshot and execution report if an assertion fails.
+
+This example demonstrates the intended checks; before using it in the submitted project, I would align the selectors, configuration, and page-object methods with the existing repository. I would also use the project's existing fixtures and page objects where available rather than duplicate their setup.
+
+## B2. Evaluating an AI-Generated Test-Case Feature
+
+I would evaluate an AI feature that generates test cases from a short requirement. Although it can save time, I would review the generated cases before using them.
+
+| Check | How I would assess it | Scoring method |
 |---|---|---|
-| Accuracy | Does the generated test match the actual application behavior? | 0–2 |
-| Coverage | Does it include positive, negative, and boundary scenarios? | 0–2 |
-| Correctness | Are the selectors, test data, and expected results correct? | 0–2 |
-| Maintainability | Is the test easy to read, update, and reuse? | 0–2 |
+| Requirement accuracy | Compare each test's expected result with the given requirement. | 0 = Incorrect, 1 = Partly correct, 2 = Correct |
+| Coverage | Check for positive, negative, boundary, and relevant security scenarios. | 0 = Major gaps, 1 = Some gaps, 2 = Good coverage |
+| Unsupported assumptions | Check whether the output invents rules that were not provided. | 0 = Major inventions, 1 = Minor assumptions, 2 = No unsupported rules |
+| Usability and structure | Check whether the cases are clear, non-duplicated, and follow the required format. | 0 = Difficult to use, 1 = Needs edits, 2 = Ready for review |
 
-For each check, I would give 0 for poor results, 1 for partially correct results, and 2 for good results. The maximum score would be 8. A score of 7–8 would mean the output looks promising but still needs human review; 4–6 would mean it needs improvements, and 0–3 would mean substantial rework is needed.
+**Scoring:** The maximum score is 8.
 
-## B3. Bug Report – Incorrect Price Sorting
+- **7–8:** Promising output, but human review is still required.
+- **4–6:** Needs revision.
+- **0–3:** Requires substantial rework.
 
-**Title:** Products are not sorted correctly by price in release 4.2.0
+I would test the feature using several requirements, including login validation, product sorting, and checkout. I would compare its output against manually reviewed test cases and record the scores. I would also check whether repeated runs produce consistent results. The score helps compare outputs, but it does not replace human review.
 
-**Environment:** Release 4.2.0. The browser, operating system, and build details should be recorded during testing.
+## B3. Bug Report — Product Price Sorting
 
-**Steps to reproduce:**
-1. Log in using a valid account.
-2. Open the Products page.
-3. Select the price low-to-high option.
-4. Check the order of the displayed products.
-5. Repeat the test to confirm whether the issue occurs again.
+**Bug ID:** BUG-003  
+**Title:** Products are not sorted correctly by price, from low to high  
+**Environment:** SauceDemo web application  
+**Release:** 4.2.0  
+**Severity:** Major  
+**Priority:** P1  
 
-**Expected result:** Products should be displayed from the lowest price to the highest price.
+### Preconditions
+- The user can log in successfully.
+- The products page displays multiple products with different prices.
 
-**Actual result:** The reported behavior is that the $29.99 product appears before the $15.99 product.
+### Steps to Reproduce
+1. Open the SauceDemo application.
+2. Log in using a valid account.
+3. Navigate to the products page.
+4. Select **Price (low to high)** from the sorting dropdown.
+5. Observe the displayed product prices.
 
-**Severity:** I would initially consider this a major functional issue because users cannot rely on the selected sorting option. The final priority would depend on the team's release criteria and the impact on users.
+### Expected Result
+Products should appear in ascending numerical order, with the lowest-priced product first and the highest-priced product last.
 
-**Evidence:** I would attach a screenshot showing the selected sorting option and the incorrect product order, along with the test result and environment details.
+### Actual Result
+The product priced at **$29.99** appears before the product priced at **$15.99**, violating ascending price order.
 
-I would reproduce the issue before closing the bug and update the report with the confirmed results.
+### Reproducibility
+The issue occurs on every test run.
 
-## B4. Release Recommendation
+### Impact
+Users may have difficulty finding the lowest-priced products, reducing confidence in the sorting feature.
 
-I would recommend investigating the sorting defect before approving the release. If the application consistently places the $29.99 product before the $15.99 product when low-to-high sorting is selected, that is a functional problem that should be assessed before release.
+### Evidence
+Capture a screenshot of the products page after selecting **Price (low to high)**, showing the incorrect order.
 
-I would also investigate the checkout test that fails in one out of ten runs. I would review the screenshot, logs, and failing step to determine whether the problem comes from the application, test code, or environment. I would not assume it is just a flaky test without evidence.
+### Recommendation
+Investigate the sorting implementation and verify that prices are compared numerically rather than as strings. Retest ascending and descending sorting after the fix, including products with different prices.
 
-My recommendation would be to hold release approval until the sorting issue has been assessed and the checkout failure has been investigated. If the release cannot be delayed, the team should document the risk and make an explicit release decision. After any fix, I would rerun the affected tests and the relevant regression suite.
+## B4. Release Decision
+
+I would recommend **holding the release until the sorting defect is assessed and the intermittent checkout failure is investigated**.
+
+The sorting defect produces an incorrect order, which directly affects users trying to find the lowest-priced products. The checkout test also fails intermittently, so I would investigate whether this is a test stability issue or an actual application defect.
+
+Before making the release decision, I would:
+
+1. Reproduce the sorting issue and confirm its impact.
+2. Investigate the checkout failure using logs, screenshots, and test reports.
+3. Rerun the checkout test to identify whether the failure is caused by timing, test data, environment instability, or an application issue.
+4. Run relevant regression tests after any fix.
+5. Share the findings, risks, and test results with the QA lead and release manager.
+
+If the sorting issue affects a core requirement and remains unresolved, I would recommend delaying the release. If the issue is understood, its impact is acceptable, and the authorized release stakeholders approve the risk, a release may proceed with documented risks and a follow-up plan.
+
+I would not treat a passing rerun alone as proof that the checkout issue is resolved.
 
 ---
 
 ## Section C – Investigation and Experience
 
-## C1. Investigating a Checkout Failure
+## C1. Checkout Failure Investigation
 
-If a checkout test failed, I would first review the test report, screenshot, and error message to identify the exact step where it failed. I would rerun the test to check whether the issue was consistent or intermittent.
+If checkout starts failing for some users, I would first assess the impact and investigate whether the issue is related to the application, test environment, or specific user data.
 
-Next, I would verify the test setup, including the login status, cart contents, customer details, and page state. I would also check whether the application had loaded correctly before the test interacted with it.
+### Investigation Steps
 
-If the issue continued, I would inspect the application behavior and available logs to determine whether the cause was an application defect, test data, an incorrect selector, or a timing issue. If I confirmed a genuine defect, I would document the reproduction steps, expected and actual results, and supporting evidence. If the problem was in the test itself, I would correct the test setup or synchronization and rerun the affected tests to verify the result.
+1. **Confirm the issue:** Identify affected users, when the failures started, the frequency, and the exact checkout step where they occur.
+2. **Reproduce the failure:** Test with affected and unaffected accounts using the same steps, browsers, and test data where possible.
+3. **Collect evidence:** Review application logs, API responses, browser console errors, screenshots, and automated test reports.
+4. **Check recent changes:** Investigate recent deployments, configuration changes, and database or API changes that could affect checkout.
+5. **Isolate the cause:** Verify customer information validation, cart contents, price calculations, payment responses, and session handling.
+6. **Verify the fix:** Once the suspected cause is addressed, rerun the failing test and relevant checkout regression tests.
+7. **Communicate findings:** Share the impact, evidence, suspected root cause, and current status with the development and QA teams.
+
+### Possible Root Causes
+
+- Incorrect handling of customer information.
+- API failures or unexpected responses.
+- Session or authentication issues.
+- Incorrect cart totals or tax calculations.
+- Browser-specific problems or unstable test data.
+
+### Conclusion
+
+I would prioritize the issue based on its impact on real users and whether it blocks order completion. I would avoid assuming the failure is caused by flaky automation until the evidence supports that conclusion. After the fix, I would verify the affected scenarios and run regression tests before recommending closure.
 
 ## C2. A Real Issue I Worked On at Vonage
 
